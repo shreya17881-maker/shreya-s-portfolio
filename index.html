@@ -1,16 +1,529 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Shreya Dandare — GenAI intern and full-stack developer building with Python, Flask and LLMs." />
-    <title>Shreya Dandare | Software Developer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shreya Dandare — Portfolio</title>
+<meta name="description" content="Shreya Dandare: software developer building full-stack, backend and GenAI applications with Python, Flask, Java and MongoDB.">
+<meta property="og:title" content="Shreya Dandare — Portfolio">
+<meta property="og:description" content="Full-stack and GenAI developer. Projects, experience and skills.">
+<style>
+  :root {
+    --bg: #0f1115;
+    --surface: #171a21;
+    --surface-2: #1e222b;
+    --border: #2a2f3a;
+    --text: #e7e9ee;
+    --muted: #9aa3b2;
+    --accent: #7c9cff;
+    --accent-2: #b48cff;
+    --on-accent: #0b0d12;
+    --header-bg: rgba(15, 17, 21, 0.82);
+    --radius: 14px;
+    --max: 1040px;
+  }
+  :root[data-theme="light"] {
+    --bg: #f7f8fb;
+    --surface: #ffffff;
+    --surface-2: #eef1f7;
+    --border: #dde2ec;
+    --text: #151823;
+    --muted: #5b6475;
+    --accent: #3457d5;
+    --accent-2: #7a3fe0;
+    --on-accent: #ffffff;
+    --header-bg: rgba(247, 248, 251, 0.85);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  button { font: inherit; cursor: pointer; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  section { padding: 88px 0; border-top: 1px solid var(--border); }
+  h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .eyebrow {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--accent); font-weight: 600; margin-bottom: 10px;
+  }
+  .lead { color: var(--muted); max-width: 680px; margin-bottom: 40px; }
+
+  /* Nav */
+  header.top {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--header-bg);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  header.top .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px; gap: 16px;
+  }
+  .brand { font-weight: 700; color: var(--text); }
+  .brand:hover { text-decoration: none; }
+  .nav-right { display: flex; align-items: center; gap: 22px; }
+  nav ul { list-style: none; display: flex; gap: 22px; }
+  nav a { color: var(--muted); font-size: 0.95rem; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+  .theme-toggle {
+    background: var(--surface); color: var(--text);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 12px; font-size: 0.85rem;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+
+  /* Hero */
+  .hero { padding: 120px 0 96px; border-top: none; }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
+  }
+  .hero .role { margin-top: 14px; font-size: clamp(1.15rem, 2.4vw, 1.4rem); color: var(--muted); }
+  .hero .role span {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-weight: 600;
+  }
+  .hero p.intro { margin-top: 22px; max-width: 640px; color: var(--muted); }
+  .cta { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-block; padding: 11px 20px; border-radius: 999px;
+    font-weight: 600; font-size: 0.95rem; border: 1px solid var(--border);
+    color: var(--text); background: var(--surface);
+  }
+  .btn:hover { text-decoration: none; border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .contact-reveal { display: none; margin-top: 22px; }
+  .contact-reveal.open { display: flex; flex-wrap: wrap; gap: 10px; }
+  .contact-reveal a { font-size: 0.92rem; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; }
+  .about-grid p { color: var(--muted); margin-bottom: 16px; }
+  .facts { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .facts dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 14px; }
+  .facts dt:first-child { margin-top: 0; }
+  .facts dd { color: var(--text); font-weight: 500; }
+
+  /* Services */
+  .services { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; margin-top: 48px; }
+  .service {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px;
+  }
+  .service .icon {
+    width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+    background: var(--surface-2); color: var(--accent); font-weight: 700; margin-bottom: 14px;
+  }
+  .service h3 { font-size: 1.02rem; margin-bottom: 6px; }
+  .service p { color: var(--muted); font-size: 0.92rem; }
+
+  /* Experience */
+  .timeline { position: relative; padding-left: 26px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border);
+  }
+  .job { position: relative; margin-bottom: 36px; }
+  .job::before {
+    content: ""; position: absolute; left: -26px; top: 8px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px var(--bg);
+  }
+  .job header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; }
+  .job h3 { font-size: 1.15rem; font-weight: 650; }
+  .job .org { color: var(--accent); font-weight: 600; }
+  .job .when { color: var(--muted); font-size: 0.92rem; }
+  .job .stack { margin-top: 6px; color: var(--muted); font-size: 0.9rem; }
+  .job ul { margin-top: 12px; padding-left: 18px; color: var(--muted); }
+  .job li { margin-bottom: 6px; }
+  .job li strong { color: var(--text); font-weight: 600; }
+
+  /* Projects */
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .filter {
+    background: var(--surface); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px; padding: 7px 16px; font-size: 0.9rem;
+  }
+  .filter:hover { color: var(--text); border-color: var(--accent); }
+  .filter[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+    display: flex; flex-direction: column;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .card[hidden] { display: none; }
+  .card .num { font-size: 0.8rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .card h3 { font-size: 1.2rem; margin: 6px 0 10px; letter-spacing: -0.01em; }
+  .card p { color: var(--muted); font-size: 0.96rem; margin-bottom: 14px; }
+  .card ul { color: var(--muted); font-size: 0.94rem; padding-left: 18px; margin-bottom: 16px; }
+  .card li { margin-bottom: 6px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+  .tag {
+    font-size: 0.78rem; padding: 4px 10px; border-radius: 999px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+  }
+  .card .links { margin-top: 18px; display: flex; gap: 16px; font-size: 0.92rem; font-weight: 600; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; }
+  .skill-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .skill-box h3 { font-size: 0.95rem; margin-bottom: 12px; }
+
+  /* Education */
+  .edu { display: grid; gap: 16px; }
+  .edu-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px;
+  }
+  .edu-item h3 { font-size: 1.05rem; }
+  .edu-item p { color: var(--muted); font-size: 0.95rem; }
+  .edu-item .score { color: var(--accent); font-weight: 600; white-space: nowrap; }
+
+  /* Contact */
+  .contact p.big { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 26px; }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--muted); font-size: 0.9rem; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card { transition: none; }
+  }
+
+  @media (max-width: 760px) {
+    nav ul { gap: 14px; }
+    nav li:nth-child(n+4) { display: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    section { padding: 68px 0; }
+    .hero { padding: 84px 0 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Shreya Dandare</a>
+    <div class="nav-right">
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark theme">Light</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap reveal">
+      <p class="eyebrow">Software Developer</p>
+      <h1>Hi, I'm Shreya.</h1>
+      <p class="role">I build <span>full-stack and GenAI applications</span>.</p>
+      <p class="intro">Electronics and Computer Science undergraduate with hands-on experience in Python, Flask, Java and MongoDB, currently working on LLM-powered features as a GenAI Intern at Wohlig.</p>
+      <div class="cta">
+        <a class="btn primary" href="#projects">View projects</a>
+        <button class="btn" id="contactToggle" type="button" aria-expanded="false" aria-controls="contactReveal">Show contacts</button>
+      </div>
+      <div class="contact-reveal" id="contactReveal">
+        <a href="mailto:dandareshreya06@gmail.com">dandareshreya06@gmail.com</a>
+        <a href="https://www.linkedin.com/in/shreya-dandare-330981322/">LinkedIn</a>
+        <a href="https://github.com/dandareshreya06">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="reveal">
+          <p class="eyebrow">About</p>
+          <h2>A bit about me</h2>
+          <p>I'm an Electronics and Computer Science student at Shah and Anchor Kutchhi Engineering College, with a CGPA of 9/10 up to my fifth semester. I enjoy turning ideas into working software, from the database layer to the interface a user actually touches.</p>
+          <p>My work so far spans full-stack student tools, exam and queue management systems, and a recommendation engine built on similarity measures. I care about clean, efficient and scalable code, and I'm keen on Data Structures, OOP and machine learning fundamentals.</p>
+        </div>
+        <dl class="facts reveal">
+          <dt>Focus</dt><dd>Full-stack, backend, GenAI</dd>
+          <dt>Degree</dt><dd>B.Tech, Electronics &amp; Computer Science (2023–2027)</dd>
+          <dt>Currently</dt><dd>GenAI Intern at Wohlig</dd>
+        </dl>
+      </div>
+
+      <div class="services">
+        <div class="service reveal">
+          <div class="icon">B</div>
+          <h3>Backend</h3>
+          <p>REST APIs and business logic with Flask, plus MySQL and MongoDB data layers.</p>
+        </div>
+        <div class="service reveal">
+          <div class="icon">F</div>
+          <h3>Frontend</h3>
+          <p>Responsive, interactive interfaces built with HTML, CSS and JavaScript.</p>
+        </div>
+        <div class="service reveal">
+          <div class="icon">AI</div>
+          <h3>GenAI &amp; LLMs</h3>
+          <p>LLM-powered features, prompt design and integrating AI output into backend workflows.</p>
+        </div>
+        <div class="service reveal">
+          <div class="icon">ML</div>
+          <h3>Machine Learning</h3>
+          <p>Recommendation systems using similarity measures, collaborative and content-based filtering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Experience</p>
+        <h2>Where I've worked</h2>
+        <p class="lead">Hands-on roles building AI features and integrating them into real backend workflows.</p>
+      </div>
+      <div class="timeline reveal">
+        <article class="job">
+          <header>
+            <div>
+              <h3>GenAI Intern</h3>
+              <div class="org">Wohlig</div>
+            </div>
+            <div class="when">Sep 2026 – Present</div>
+          </header>
+          <p class="stack">Python · LLM APIs · Backend integration</p>
+          <ul>
+            <li>Developed <strong>Generative AI features</strong> using Python and APIs, building LLM-powered solutions.</li>
+            <li>Designed and refined <strong>prompts and application logic</strong> to make AI-generated outputs more accurate and relevant.</li>
+            <li>Worked with the engineering team to integrate GenAI functionality into <strong>backend workflows</strong> and ship working features.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Projects</p>
+        <h2>Selected work</h2>
+        <p class="lead">Full-stack and backend projects, from a student productivity platform to a recommendation system.</p>
+      </div>
+      <div class="filters reveal" role="group" aria-label="Filter projects">
+        <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter" type="button" data-filter="web" aria-pressed="false">Web Development</button>
+        <button class="filter" type="button" data-filter="ai" aria-pressed="false">AI / ML</button>
+      </div>
+      <div class="grid">
+
+        <article class="card reveal" data-cat="web">
+          <span class="num">01</span>
+          <h3>StudySync</h3>
+          <p>A full-stack student productivity platform for organising academic tasks, study schedules and progress.</p>
+          <ul>
+            <li>Responsive frontend in HTML, CSS and JavaScript, with a Flask backend handling logic, authentication and REST APIs.</li>
+            <li>Task management, subject-wise progress tracking, weekly study analytics, a Pomodoro timer and quick notes.</li>
+            <li>MongoDB storage for user profiles, tasks, notes and study records.</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">MongoDB</span><span class="tag">JavaScript</span></div>
+          <div class="links"><a href="https://shreya17881-maker.github.io/studysync/">Live demo →</a></div>
+        </article>
+
+        <article class="card reveal" data-cat="web">
+          <span class="num">02</span>
+          <h3>Online Exam Management System</h3>
+          <p>A cross-platform examination system for creating, administering and evaluating assessments.</p>
+          <ul>
+            <li>Separate administrator and candidate modules with a clean web interface.</li>
+            <li>MySQL-backed layer for credentials, exam schedules and performance data.</li>
+            <li>Automated evaluation that returns instant results and feedback on completion.</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">MySQL</span></div>
+        </article>
+
+        <article class="card reveal" data-cat="web">
+          <span class="num">03</span>
+          <h3>Queue Management System</h3>
+          <p>A Flask web system for organising customer queues and reducing congestion and waiting times.</p>
+          <ul>
+            <li>Real-time queue status and estimated waiting times.</li>
+            <li>Interfaces for both administrators and customers.</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span></div>
+        </article>
+
+        <article class="card reveal" data-cat="ai">
+          <span class="num">04</span>
+          <h3>AI-Based Recommendation System</h3>
+          <p>A recommender that suggests items from user behaviour and preferences using custom similarity logic.</p>
+          <ul>
+            <li>Data preprocessing and similarity calculations to improve relevance.</li>
+            <li>Collaborative and content-based filtering, evaluated on accuracy and relevance.</li>
+          </ul>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Machine Learning</span></div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Skills</p>
+        <h2>What I work with</h2>
+        <p class="lead">Languages, frameworks and tools I use day to day.</p>
+      </div>
+      <div class="skills reveal">
+        <div class="skill-box">
+          <h3>Languages</h3>
+          <div class="tags"><span class="tag">Python</span><span class="tag">Java</span><span class="tag">JavaScript</span><span class="tag">C</span><span class="tag">C++</span><span class="tag">SQL</span></div>
+        </div>
+        <div class="skill-box">
+          <h3>Web &amp; Backend</h3>
+          <div class="tags"><span class="tag">Flask</span><span class="tag">REST APIs</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        </div>
+        <div class="skill-box">
+          <h3>Databases &amp; Tools</h3>
+          <div class="tags"><span class="tag">MySQL</span><span class="tag">MongoDB</span><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">PythonAnywhere</span></div>
+        </div>
+        <div class="skill-box">
+          <h3>Core</h3>
+          <div class="tags"><span class="tag">Data Structures &amp; Algorithms</span><span class="tag">OOP</span><span class="tag">Database Management</span><span class="tag">Machine Learning</span><span class="tag">Generative AI</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <div class="reveal">
+        <p class="eyebrow">Education</p>
+        <h2>Academic background</h2>
+      </div>
+      <div class="edu reveal">
+        <div class="edu-item">
+          <div>
+            <h3>B.Tech, Electronics and Computer Science</h3>
+            <p>Shah and Anchor Kutchhi Engineering College, Chembur · 2023 – 2027</p>
+          </div>
+          <div class="score">CGPA 9/10 (up to 5th sem)</div>
+        </div>
+        <div class="edu-item">
+          <div>
+            <h3>HSC, Class XII</h3>
+            <p>Bhavans B.P. Vidya Mandir · 2021 – 2023</p>
+          </div>
+          <div class="score">77.4%</div>
+        </div>
+        <div class="edu-item">
+          <div>
+            <h3>SSC, Class X</h3>
+            <p>Central India Public School</p>
+          </div>
+          <div class="score">86.6%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <p class="eyebrow">Contact</p>
+      <p class="big">Let's build something useful together.</p>
+      <div class="contact-links">
+        <a class="btn primary" href="mailto:dandareshreya06@gmail.com">dandareshreya06@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/shreya-dandare-330981322/">LinkedIn</a>
+        <a class="btn" href="https://github.com/dandareshreya06">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Shreya Dandare</span>
+    <span>Built with plain HTML, CSS and JavaScript</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    // Scroll reveal
+    var items = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('in'); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    }
+
+    // Theme toggle (remembered per viewer when storage is available)
+    var root = document.documentElement;
+    var toggle = document.getElementById('themeToggle');
+    function applyTheme(t) {
+      root.setAttribute('data-theme', t);
+      toggle.textContent = t === 'dark' ? 'Light' : 'Dark';
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    applyTheme(saved === 'light' ? 'light' : 'dark');
+    toggle.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    // Contact reveal in hero
+    var cBtn = document.getElementById('contactToggle');
+    var cBox = document.getElementById('contactReveal');
+    cBtn.addEventListener('click', function () {
+      var open = cBox.classList.toggle('open');
+      cBtn.setAttribute('aria-expanded', String(open));
+      cBtn.textContent = open ? 'Hide contacts' : 'Show contacts';
+    });
+
+    // Project filters
+    var filters = document.querySelectorAll('.filter');
+    var cards = document.querySelectorAll('.card[data-cat]');
+    filters.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var f = btn.getAttribute('data-filter');
+        filters.forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+        cards.forEach(function (c) {
+          c.hidden = !(f === 'all' || c.getAttribute('data-cat') === f);
+        });
+      });
+    });
+  })();
+</script>
+</body>
 </html>
